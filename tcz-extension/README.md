@@ -13,11 +13,19 @@ upstream binaries under `/usr/local/sbin` and includes the GPL license.
 
 ## Typical build flow
 
-1. Build the upstream project in the repo root:
-   - `make`
-2. Run:
+1. Build the upstream project in the repo root. To reduce complexity,
+build on the target hardware and OS (Raspberry Pi Zero W + piCore or piCorePlayer).
+   - `tce-load -iw compiletc.tcz`
+   - `make PKGCONFIG=false thd th-cmd`
+2. Install `squashfs-tools`. This can be on target hardware:
+   - `tce-load -iw squashfs-tools.tcz`
+
+   or under WSL2 Ubuntu:  
+   - `sudo apt-get update && sudo apt-get install squashfs-tools` 
+3. Build the extension:
+   - `cd tcz-extension`
    - `./build.sh`
-3. Review the generated `.tcz`, `.list`, and `.md5.txt` files.
+4. Review the generated `.tcz`, `.list`, and `.md5.txt` files.
 
 ## Target specifics
 
@@ -36,4 +44,4 @@ TinyCore extension dependencies, so `triggerhappy.tcz.dep` is empty.
 
 - `build.sh` expects `thd` and `th-cmd` to have already been built in the
   repository root.
-- Load `squashfs-tools.tcz` before running the packaging script.
+
